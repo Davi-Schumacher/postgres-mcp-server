@@ -1,5 +1,7 @@
 # PostgreSQL
 
+I yanked this from Anthropic's now-archived reference servers since it was a good starting point and will be adding some capabilities like being able list tables and schemas and insert data. Everything below this line is verbatim what was found in the reference server repo, with the exception of the components lists which I will update as needed.
+
 A Model Context Protocol server that provides read-only access to PostgreSQL databases. This server enables LLMs to inspect database schemas and execute read-only queries.
 
 ## Components
@@ -10,6 +12,10 @@ A Model Context Protocol server that provides read-only access to PostgreSQL dat
   - Execute read-only SQL queries against the connected database
   - Input: `sql` (string): The SQL query to execute
   - All queries are executed within a READ ONLY transaction
+
+- **list_tables**
+  - Prints all the available tables and their schemas
+  - Will update to allow for specifying a schema
 
 ### Resources
 
