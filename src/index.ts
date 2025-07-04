@@ -104,6 +104,14 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           },
         },
       },
+      {
+        name: "list_tables",
+        description: "List all available tables and their schemas",
+        inputSchema: {
+          type: "object",
+          properties: {},
+        },
+      },
     ],
   };
 });
@@ -132,6 +140,41 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       client.release();
     }
   }
+  
+  if (request.params.name === "list_tables") {
+    const client = await pool.connect();
+    try {
+      // Get all tables
+      const tablesResult = await client.query(
+        "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name"
+      );
+      
+      const tablesWithSchemas = [];
+      
+      for (const tableRow of tablesResult.rows) {
+        const tableName = tableRow.table_name;
+        
+        // Get schema for each table
+        const schemaResult = await client.query(
+          "SELECT column_name, data_type, is_nullable, column_default FROM information_schema.columns WHERE table_name = $1 ORDER BY ordinal_position",
+          [tableName]
+        );
+        
+        tablesWithSchemas.push({
+          table_name: tableName,
+          columns: schemaResult.rows
+        });
+      }
+      
+      return {
+        content: [{ type: "text", text: JSON.stringify(tablesWithSchemas, null, 2) }],
+        isError: false,
+      };
+    } finally {
+      client.release();
+    }
+  }
+  
   throw new Error(`Unknown tool: ${request.params.name}`);
 });
 
