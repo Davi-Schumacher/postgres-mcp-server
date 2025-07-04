@@ -1,7 +1,7 @@
 FROM node:22.12-alpine AS builder
 
-COPY src/postgres /app
-COPY tsconfig.json /tsconfig.json
+COPY src/ /app
+COPY tsconfig.json /app/tsconfig.json
 
 WORKDIR /app
 
