@@ -1,6 +1,6 @@
 # PostgreSQL
 
-I yanked this from Anthropic's now-archived reference servers since it was a good starting point and will be adding some capabilities like being able list tables and schemas and insert data. Everything below this line is verbatim what was found in the reference server repo, with the exception of the components lists which I will update as needed.
+I yanked this from Anthropic's now-archived reference servers since it was a good starting point and will be adding some capabilities as needed. Everything below this line is verbatim what was found in the reference server repo, with the exception of the components lists which I will update if capabilities are added.
 
 A Model Context Protocol server that provides read-only access to PostgreSQL databases. This server enables LLMs to inspect database schemas and execute read-only queries.
 
@@ -15,7 +15,7 @@ A Model Context Protocol server that provides read-only access to PostgreSQL dat
 
 - **list_tables**
   - Prints all the available tables and their schemas
-  - Will update to allow for specifying a schema
+  - Allows the agent to self-discover tables and their schemas instead of needing to manually provide them via resources
 
 ### Resources
 
